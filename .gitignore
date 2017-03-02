@@ -11,3 +11,4 @@ config.codekit
 */desktop.ini
 desktop.ini
 .env
+.vscode
