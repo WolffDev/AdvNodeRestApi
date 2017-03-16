@@ -6,6 +6,7 @@ const {ObjectId} = require('mongodb');
 const {mongoose} = require('./db/mongoose');
 const {Todo} = require('./models/Todo.js');
 const {User} = require('./models/User.js');
+const {authenticate} = require('./middleware/authenticate');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -102,6 +103,7 @@ app.patch('/todos/:id', (req, res) => {
 });
 
 
+
 // Post User
 app.post('/users', (req, res) => {
 	let body = _.pick(req.body, ['email', 'password']);
@@ -114,6 +116,10 @@ app.post('/users', (req, res) => {
 	}).catch((e) => {
 		res.status(400).send(e.errmsg);
 	});
+});
+
+app.get('/users/me', authenticate, (req, res) => {
+	res.send(req.user);
 });
 
 

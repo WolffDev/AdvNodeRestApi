@@ -18,7 +18,7 @@ var UserSchema= new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    minlength: 10,
+    minlength: 10
   },
   tokens: [{
     access: {
@@ -32,6 +32,7 @@ var UserSchema= new mongoose.Schema({
   }]
 });
 
+// Instance Method
 UserSchema.methods.toJSON = function() {
   var user = this;
   var userObject = user.toObject();
@@ -39,6 +40,7 @@ UserSchema.methods.toJSON = function() {
   return _.pick(userObject, ['_id', 'email']);
 };
 
+// Instance Method - gets called with the individual document (mongoDB)
 UserSchema.methods.generateAuthToken = function() {
   var user = this;
   var access = 'auth';
@@ -50,6 +52,29 @@ UserSchema.methods.generateAuthToken = function() {
     return token;
   });
   
+};
+
+// Model Method - gets called with the model as the this binding
+UserSchema.statics.findByToken = function(token) {
+  var User = this;
+  var decoded;
+
+  try {
+    decoded = jwt.verify(token, 'dassad123')
+  } catch(e) {
+    // return new Promise( (resolve, reject) => {
+    //   reject();
+    // });
+    return Promise.reject();
+  }
+
+  // Success decoded
+  return User.findOne({
+    '_id': decoded._id,
+    'tokens.token': token,
+    'tokens.access': 'auth'
+  });
+
 };
 
 var User = mongoose.model('User', UserSchema);
