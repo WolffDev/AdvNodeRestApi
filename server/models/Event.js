@@ -1,6 +1,8 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
-var DetailSchema = mongoose.model('DetailSchema', {
+let ObjectId = mongoose.Schema.Types.ObjectId;
+
+let DetailSchema = mongoose.model('DetailSchema', {
 	title: {
 		type: String,
 		required: true
@@ -19,7 +21,7 @@ var DetailSchema = mongoose.model('DetailSchema', {
 	}
 });
 
-var ParticipantSchema = mongoose.model('ParticipantSchema', {
+let ParticipantSchema = mongoose.model('ParticipantSchema', {
 	userId: {
 		type: String,
 		required: true
@@ -30,12 +32,16 @@ var ParticipantSchema = mongoose.model('ParticipantSchema', {
 	}
 });
 
-var Event = mongoose.model('Event', {
-	eventId: {
-		type: Number,
+let Event = mongoose.model('Event', {
+	_id: {
+		type: ObjectId,
 		required: true
 	},
 	creatorId: {
+		type: String,
+		required: true
+	},
+	creatorName: {
 		type: String,
 		required: true
 	},

@@ -1,14 +1,19 @@
-const routes = require('express').Router();
+const route = require('express').Router();
 const {ObjectId} = require('mongodb');
 
 const {Event} = require('../models/Event.js');
+const {Annotation} = require('../models/Annotation.js');
+const {EventList} = require('../models/EventList.js');
 
 // Add Event
-routes.post('/', (req, res) => {
+route.post('/', (req, res) => {
+
+	let objId = new ObjectId();
 
 	let event = new Event({
-		eventId: req.body.eventId,
+		_id: objId,
 		creatorId: req.body.creatorId,
+		creatorName: req.body.creatorName,
 		createDate: req.body.createDate,
 		eventDate: req.body.eventDate,
 		longitude: req.body.longitude,
@@ -17,7 +22,24 @@ routes.post('/', (req, res) => {
 		participants: req.body.participants
 	});
 
+	let annotation = new Annotation({
+		_id: objId,
+		latitude: req.body.latitude,
+		longitude: req.body.longitude,
+		image: req.body.details.image
+	});
+
+	let eventList = new EventList({
+		_id: objId,
+		creatorName: req.body.creatorName,
+		eventImage: req.body.details.image,
+		eventTitle: req.body.details.title,
+		eventDate: req.body.eventDate
+	});
+
 	event.save().then( (doc) => {
+		annotation.save();
+		eventList.save();
 		res.send(doc)
 	}, (e) => {
 		res.status(400).send(e)
@@ -25,7 +47,7 @@ routes.post('/', (req, res) => {
 });
 
 // Get All Events
-routes.get('/', (req, res) => {
+route.get('/', (req, res) => {
 	Event.find().then( (events) => {
 		res.send( {events} );
 	}, (e) => {
@@ -37,7 +59,7 @@ routes.get('/', (req, res) => {
 
 // Get Single Event
 
-routes.get('/:id', (req, res) => {
+route.get('/:id', (req, res) => {
 	let id = req.params.id
 
 	if(!ObjectId.isValid(id)) {
@@ -55,4 +77,47 @@ routes.get('/:id', (req, res) => {
 	})
 });
 
-module.exports = routes;
+// Delete Singe Event
+route.delete('/:id', (req, res) => {
+	let id = req.params.id;
+
+	if(!ObjectId.isValid(id)) {
+		return res.status(404).send("Invalid ID");
+	}
+
+	Event.findByIdAndRemove(id).then( (event) => {
+		if(!event) {
+			return res.status(404).send("ID does not exist");
+		}
+		res.send(event);
+	}).catch( (e) => {
+		res.status(400).send();
+	});
+});
+
+// Update single Event
+route.patch('/:id', (req, res) => {
+	let id = req.params.id;
+	let body = {
+		eventId: req.body.eventId,
+		creatorId: req.body.creatorId,
+		createDate: req.body.createDate,
+		eventDate: req.body.eventDate,
+		longitude: req.body.longitude,
+		latitude: req.body.latitude,
+		details: req.body.details,
+		participants: req.body.participants
+	};
+
+	Event.findByIdAndUpdate(id, {$set: body}, {new: true}).then( (event) => {
+		if(!event) {
+			res.status(404).send();
+		}
+
+		res.send( {event} );
+	}).catch( (e) => {
+		res.status(400).send(e);
+	})
+});
+
+module.exports = route;
