@@ -96,10 +96,10 @@ route.delete('/:id', (req, res) => {
 });
 
 // Update single Event
-route.patch('/:id', (req, res) => {
+route.put('/:id', (req, res) => {
 	let id = req.params.id;
 	let body = {
-		eventId: req.body.eventId,
+		creatorName: req.body.creatorName,
 		creatorId: req.body.creatorId,
 		createDate: req.body.createDate,
 		eventDate: req.body.eventDate,
