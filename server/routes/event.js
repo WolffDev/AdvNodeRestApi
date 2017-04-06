@@ -71,7 +71,7 @@ route.get('/:id', (req, res) => {
 			return res.status(404).send("Invalid ID");
 		}
 
-		res.send( {event} );
+		res.send( event );
 	}).catch( (e) => {
 		res.status(400).send(e);
 	})
