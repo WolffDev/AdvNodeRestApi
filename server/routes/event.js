@@ -49,7 +49,7 @@ route.post('/', (req, res) => {
 // Get All Events
 route.get('/', (req, res) => {
 	Event.find().then( (events) => {
-		res.send( {events} );
+		res.send( events );
 	}, (e) => {
 		if(err) {
 			res.status(400).send(e);
