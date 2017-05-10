@@ -64,7 +64,7 @@ let Event = mongoose.model('Event', {
 		required: true
 	},
 	participants: [{
-		type: ParticipantSchema
+		type: {ParticipantSchema}
 		// http://stackoverflow.com/questions/19695058/how-to-define-object-in-array-in-mongoose-schema-correctly-with-2d-geo-index
 	}]
 });
