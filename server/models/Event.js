@@ -63,10 +63,10 @@ let Event = mongoose.model('Event', {
 		type: {DetailSchema},
 		required: true
 	},
-	participants: [{
+	participants: {
 		type: {ParticipantSchema}
 		// http://stackoverflow.com/questions/19695058/how-to-define-object-in-array-in-mongoose-schema-correctly-with-2d-geo-index
-	}]
+	}
 });
 
 module.exports = {Event};
