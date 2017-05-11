@@ -26,7 +26,9 @@ route.post('/', (req, res) => {
 		_id: objId,
 		latitude: req.body.latitude,
 		longitude: req.body.longitude,
-		image: req.body.details.image
+		image: req.body.details.image,
+		title: req.body.details.title,
+		creator: req.body.creatorName
 	});
 
 	let eventList = new EventList({

@@ -18,6 +18,14 @@ let Annotation = mongoose.model('Annotation', {
 	image: {
 		type: String,
 		required: true
+	},
+	title: {
+		type: String,
+		required: true
+	},
+	creator: {
+		type: String,
+		required: true
 	}
 });
 
