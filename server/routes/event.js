@@ -18,8 +18,7 @@ route.post('/', (req, res) => {
 		eventDate: req.body.eventDate,
 		longitude: req.body.longitude,
 		latitude: req.body.latitude,
-		details: req.body.details,
-		participants: req.body.participants
+		details: req.body.details
 	});
 
 	let annotation = new Annotation({
