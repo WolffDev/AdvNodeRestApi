@@ -7,7 +7,15 @@ let DetailSchema = mongoose.model('DetailSchema', {
 		type: String,
 		required: true
 	},
-	address: {
+	street: {
+		type: String,
+		required: true
+	},
+	zipcode: {
+		type: String,
+		required: true
+	},
+	city: {
 		type: String,
 		required: true
 	},

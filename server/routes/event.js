@@ -90,6 +90,8 @@ route.delete('/:id', (req, res) => {
 		if(!event) {
 			return res.status(404).send("ID does not exist");
 		}
+		Annotation.findByIdAndRemove(id).remove().exec();
+		EventList.findByIdAndRemove(id).remove().exec();
 		res.send(event);
 	}).catch( (e) => {
 		res.status(400).send();
