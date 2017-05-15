@@ -20,8 +20,8 @@ let EventList = mongoose.model('EventList', {
 		required: true
 	},
 	eventDate: {
-		type: Number,
-		required: true
+		type: Date,
+		default: Date.now
 	}
 });
 
