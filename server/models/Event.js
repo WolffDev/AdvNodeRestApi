@@ -54,17 +54,18 @@ let Event = mongoose.model('Event', {
 		required: true
 	},
 	createDate: {
-		type: Number
+		type: Date,
+		default: Date.now
 	},
 	eventDate: {
-		type: Number
+		type: String
 	},
 	longitude: {
-		type: Number,
+		type: String,
 		required: true
 	},
 	latitude: {
-		type: Number,
+		type: String,
 		required: true
 	},
 	details: {
