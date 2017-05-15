@@ -34,8 +34,7 @@ route.post('/', (req, res) => {
 		_id: objId,
 		creatorName: req.body.creatorName,
 		eventImage: req.body.details.image,
-		eventTitle: req.body.details.title,
-		eventDate: req.body.eventDate
+		eventTitle: req.body.details.title
 	});
 
 	event.save().then( (doc) => {
